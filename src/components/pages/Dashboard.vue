@@ -1,7 +1,11 @@
 <script setup>
   import Grid from "../Grid.vue";
-
   import { gymHealthFacts } from "../../utils/index";
+
+  const props = defineProps({
+    handleSelectWorkout: Function,
+    firstIncompleteWorkoutIndex: Number,
+  });
 
   const dailyTip =
     gymHealthFacts[Math.floor(Math.random() * gymHealthFacts.length)];
@@ -14,9 +18,18 @@
       <div>
         <p class="tip"><strong>Daily Tip</strong><br />{{ dailyTip }}</p>
       </div>
-      <button>Start workout &rarr;</button>
+      <button
+        @click="
+          () =>
+            handleSelectWorkout(
+              firstIncompleteWorkoutIndex < 0 ? 0 : firstIncompleteWorkoutIndex
+            )
+        "
+      >
+        Start workout &rarr;
+      </button>
     </div>
-    <Grid />
+    <Grid v-bind="props" />
   </section>
 </template>
 
